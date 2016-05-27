@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Sales Product Request Form</title>
+  
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/typeaheadjs.css">
+  <script src='/js/typeahead.bundle.min.js'></script>
+
+</head>
+<body>
+  <div class="container">
+    <h1>Hello World</h1>
+
+    <!-- Start of form -->
+    <form role="form">
+
+      <fieldset class="form-group">
+        <label for="usr">Name:</label>
+        <input type="text" name="user" class="form-control typeahead" id="usr" required="true" value="Nixon">
+      </fieldset>
+      
+      <fieldset class="form-group">
+        <label for="sel1">Request Category:</label>
+        <select class="form-control" id="sel1" name="category">
+          <option selected="true">Downstream Integration</option>
+          <option>Source Integration</option>
+          <option>Warehouse Integration</option>
+          <option>Product Feature</option>
+        </select>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <label for="request">Request Details (product/integration specifics):</label>
+        <input name="request" type="text" class="form-control" id="request-details" required="true" value="Omniture">
+      </fieldset>
+
+      <fieldset class="form-group">
+        <label for="comments">Other Comments</label>
+        <textarea name="comments" class="form-control" id="exampleTextarea" rows="3">Need some more Omniture!
+        </textarea>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <label for="company">Company:</label>
+        <input name="company" class="form-control" id="company" required="true" value="Segment">
+      </fieldset>
+
+      <fieldset class="form-group">
+        <div>
+          <label>Team</label>
+        </div>
+        <label class="radio-inline"><input type="radio" value="BI/Analytics" name="team-radio" name="BI/Analytics" checked>BI/Analytics</label>
+        <label class="radio-inline"><input type="radio" value="Marketing" name="team-radio">Marketing</label>
+        <label class="radio-inline"><input type="radio" value="Product" name="team-radio">Product</label>
+        <label class="radio-inline"><input type="radio" value="Engineering" name="team-radio">Engineering</label>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <label for="deal-size">Potential Deal Size?</label>
+        <div class="input-group">
+          <span class="input-group-addon">$</span>
+          <input type="number" name="potential-deal-size" class="form-control" aria-label="Amount (to the nearest dollar)" id="deal-size" required="true" value="10000">
+          <span class="input-group-addon">.00</span>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <div>
+          <label>Likelihood of Closing?</label>
+        </div>
+        <label class="radio-inline"><input type="radio" value="1" name="closingradio" checked>1</label>
+        <label class="radio-inline"><input type="radio" value="2" name="closingradio">2</label>
+        <label class="radio-inline"><input type="radio" value="3" name="closingradio">3</label>
+        <label class="radio-inline"><input type="radio" value="4" name="closingradio">4</label>
+        <label class="radio-inline"><input type="radio" value="5" name="closingradio">5</label>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <div>
+          <label>Is this blocking a current deal (be honest!)?</label>
+        </div>
+        <label class="radio-inline"><input type="radio" value="true" name="deal-blocker">Yes</label>
+        <label class="radio-inline"><input type="radio" value="false" name="deal-blocker" checked>No</label>
+      </fieldset>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</body>
+<script src='/js/app.js'></script>
+</html>
