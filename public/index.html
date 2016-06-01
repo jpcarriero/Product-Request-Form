@@ -50,9 +50,9 @@
         <div>
           <label>Type of Request</label>
         </div>
-        <label class="radio-inline"><input type="radio" value="New Integration" name="team-radio">New Integration</label>
-        <label class="radio-inline"><input type="radio" value="Upgrade to Current Integration" name="team-radio">Upgrade to Current Integration</label>
-        <label class="radio-inline"><input type="radio" value="Bug Fix" name="team-radio">Bug Fix</label>
+        <label class="radio-inline"><input type="radio" value="New Integration" name="type-radio">New Integration</label>
+        <label class="radio-inline"><input type="radio" value="Upgrade to Current Integration" name="type-radio">Upgrade to Current Integration</label>
+        <label class="radio-inline"><input type="radio" value="Bug Fix" name="type-radio">Bug Fix</label>
       </fieldset>
 
       <fieldset class="form-group">
@@ -65,23 +65,23 @@
           <label>Impact on deal?</label>
         </div>
         <div>
-        <label class="radio-inline"><input type="radio" value="1" name="deal-blocker" checked>1 - Nice to Have (no effect on price or timing)</label>
+        <label class="radio-inline"><input type="radio" value="1" name="impact-radio" checked>1 - Nice to Have (no effect on price or timing)</label>
         <br>
-        <label class="radio-inline"><input type="radio" value="2" name="deal-blocker" >2 - Need for Future (no effect on price or timing but next renewal will be hard without this request being met)</label>
+        <label class="radio-inline"><input type="radio" value="2" name="impact-radio" >2 - Need for Future (no effect on price or timing but next renewal will be hard without this request being met)</label>
         <br>
-        <label class="radio-inline"><input type="radio" value="3" name="deal-blocker" >3 - Deal Stalled (not having this request is slowing the sales cycle)</label>
+        <label class="radio-inline"><input type="radio" value="3" name="impact-radio" >3 - Deal Stalled (not having this request is slowing the sales cycle)</label>
         <br>
-         <label class="radio-inline"><input type="radio" value="4" name="deal-blocker" >4 - Revenue Impact (not having this request is lowering the deal value)</label>
+         <label class="radio-inline"><input type="radio" value="4" name="impact-radio" >4 - Revenue Impact (not having this request is lowering the deal value)</label>
           <br>
-          <label class="radio-inline"><input type="radio" value="5" name="deal-blocker" >5 - Deal at Risk (without this request it is unlikely the deal will close)</label>
+          <label class="radio-inline"><input type="radio" value="5" name="impact-radio" >5 - Deal at Risk (without this request it is unlikely the deal will close)</label>
           <br>
-          <label class="radio-inline"><input type="radio" value="5" name="deal-blocker" >6 - Deal Blocked (this deal is closed-lost until this request is met)</label>
+          <label class="radio-inline"><input type="radio" value="5" name="impact-radio" >6 - Deal Blocked (this deal is closed-lost until this request is met)</label>
           </div>
       </fieldset>
 
       <fieldset class="form-group">
         <label for="comments">Other Comments</label>
-        <textarea name="comments" class="form-control" id="exampleTextarea" rows="3" placeholder="Anything else we should know?">
+        <textarea name="comments" class="form-control" id="other" rows="3" placeholder="Anything else we should know?">
         </textarea>
       </fieldset>
 
@@ -113,13 +113,13 @@
         <div>
           <label>Current Deal Stage</label>
         </div>
-        <label class="radio-inline"><input type="radio" value="1" name="closingradio" checked>Qualified Opportunity</label>
-        <label class="radio-inline"><input type="radio" value="2" name="closingradio">Demo</label>
-        <label class="radio-inline"><input type="radio" value="3" name="closingradio">Pricing Discussion</label>
-        <label class="radio-inline"><input type="radio" value="4" name="closingradio">Negotiation</label>
-        <label class="radio-inline"><input type="radio" value="5" name="closingradio">Closed-Lost</label>
-        <label class="radio-inline"><input type="radio" value="6" name="closingradio">Closed-Won</label>
-        <label class="radio-inline"><input type="radio" value="7" name="closingradio">Renewal</label>
+        <label class="radio-inline"><input type="radio" value="1" name="stage-radio" checked>Qualified Opportunity</label>
+        <label class="radio-inline"><input type="radio" value="2" name="stage-radio">Demo</label>
+        <label class="radio-inline"><input type="radio" value="3" name="stage-radio">Pricing Discussion</label>
+        <label class="radio-inline"><input type="radio" value="4" name="stage-radio">Negotiation</label>
+        <label class="radio-inline"><input type="radio" value="5" name="stage-radio">Closed-Lost</label>
+        <label class="radio-inline"><input type="radio" value="6" name="stage-radio">Closed-Won</label>
+        <label class="radio-inline"><input type="radio" value="7" name="stage-radio">Renewal</label>
 
       </fieldset>
       <div id="buttons">
@@ -128,6 +128,7 @@
       </div>
     </form>
   </div>
+
 <script>
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
@@ -140,6 +141,7 @@ function getParameterByName(name, url) {
 }
 $('#usr').val(getParameterByName('name'))
 $('#company').val(getParameterByName('company'))
+$('#deal-size').val(getParameterByName('deal_size'))
 $('#deal-size').val(getParameterByName('deal_size'))
 
 function watchForChange(){
