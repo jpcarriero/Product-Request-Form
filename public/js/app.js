@@ -1,25 +1,6 @@
+
+
 $(document).ready(function() {
-      function write_row() {
-          url = 'https://script.google.com/a/macros/segment.com/s/AKfycbxc9U5KMl_cZN_3YJ6W3-K7pyu0nfkt--8Kf_4_dCogicpiDJA/exec'
-          nm = $('#usr').val();
-          ctgy = $('#sel1').val();
-          typ = $("input:radio[name='type-radio']:checked").val();
-          dts = $('#request-details').val();
-          mpct = $("input:radio[name='impact-radio']:checked").val();
-          cmmts = $('#other').val();
-          cmpny = $('#company').val();
-          tm = $("input:radio[name='team-radio']:checked").val();
-          dlsz = $('#deal-size').val();
-          stg = $("input:radio[name='stage-radio']:checked").val();
-          //row_to_write = [nm,ctgy,typ,dts,mpct,cmmts,cmpny,tm,dlsz,stg];
-          $.get( url, {"Requester Name":nm,"Request Category":ctgy,"Request Type":typ,"Request Details":dts,"Impact on Deal":mpct,"Other Comments":cmmts,"Company":cmpny,"Deal Size":dlsz,"Deal Stage":stg})
-          .done(function(){
-            window.location.href = "https://docs.google.com/a/segment.com/spreadsheets/d/1HK1VShTuPlTeSCtlcj0vwwgbq6K49WcQBZ7kW4rKmAg/pubhtml"
-          })
-          .fail(function(jqXHR, textStatus, errorThrown){
-            alert("submitting failed with "+jqXHR.responseText+" if this doesn't make sense to you screenshot this message and slack John Carriero")
-          })
-      }
       $( "form" ).submit(function( event ) {
           write_row()
         });

@@ -21,14 +21,14 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/typeaheadjs.css">
   <script src="/js/typeahead.bundle.min.js"></script>
-
+  <script src="/js/app.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>Product Request Form</h1>
 
     <!-- Start of form -->
-    <form role="form">
+    <form role="form" action="javascript:write_row();">
 
       <fieldset class="form-group sfdc-hide">
         <label for="usr">Name:</label>
@@ -81,8 +81,7 @@
 
       <fieldset class="form-group">
         <label for="comments">Other Comments</label>
-        <textarea name="comments" class="form-control" id="other" rows="3" placeholder="Anything else we should know?">
-        </textarea>
+        <textarea name="comments" class="form-control" id="other" rows="3" placeholder="Anything else we should know?"></textarea>
       </fieldset>
 
       <fieldset class="form-group">
@@ -144,6 +143,26 @@ $('#company').val(getParameterByName('company'))
 $('#deal-size').val(getParameterByName('deal_size'))
 $('#deal-size').val(getParameterByName('deal_size'))
 
+function write_row() {
+          url = 'https://script.google.com/a/macros/segment.com/s/AKfycbxc9U5KMl_cZN_3YJ6W3-K7pyu0nfkt--8Kf_4_dCogicpiDJA/exec'
+          nm = $('#usr').val();
+          ctgy = $('#sel1').val();
+          typ = $("input:radio[name='type-radio']:checked").val();
+          dts = $('#request-details').val();
+          mpct = $("input:radio[name='impact-radio']:checked").val();
+          cmmts = $('#other').val();
+          cmpny = $('#company').val();
+          tm = $("input:radio[name='team-radio']:checked").val();
+          dlsz = $('#deal-size').val();
+          stg = $("input:radio[name='stage-radio']:checked").val();
+          row_to_write = [nm,ctgy,typ,dts,mpct,cmmts,cmpny,tm,dlsz,stg];
+          console.log(url);
+          console.log(row_to_write);
+          $.get( url, {Requester_Name:nm,Request_Category:ctgy,Request_Type:typ,Request_Details:dts,Impact_on_Deal:mpct,Other_Comments:cmmts,Company:cmpny,Deal_Size:dlsz,Deal_Stage:stg}, function(){
+            window.location.href = 'https://docs.google.com/spreadsheets/d/1HK1VShTuPlTeSCtlcj0vwwgbq6K49WcQBZ7kW4rKmAg/edit#gid=0';
+          });
+}
+
 function watchForChange(){
   if($('#sel1').val() != null){
     $('.show-integration').toggle($('#sel1').val().includes("Integration"))
@@ -152,6 +171,6 @@ function watchForChange(){
 setInterval(watchForChange, 250)
 </script>
 </body>
-<script src="/js/app.js"></script>
+
 
 </html>
