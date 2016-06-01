@@ -18,9 +18,9 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" href="public/css/main.css">
-  <link rel="stylesheet" href="public/css/typeaheadjs.css">
-  <script src="public/js/typeahead.bundle.min.js"></script>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/typeaheadjs.css">
+  <script src="/js/typeahead.bundle.min.js"></script>
 
 </head>
 <body>
@@ -129,13 +129,27 @@
     </form>
   </div>
 <script>
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+$('#usr').val(getParameterByName('name'))
+$('#company').val(getParameterByName('company'))
+$('#deal-size').val(getParameterByName('deal_size'))
+
 function watchForChange(){
-  $('.show-integration').toggle($('#sel1').val().includes("Integration"))
+  if($('#sel1').val() != null){
+    $('.show-integration').toggle($('#sel1').val().includes("Integration"))
+  }
 }
 setInterval(watchForChange, 250)
-
 </script>
 </body>
-<script src="public/js/app.js"></script>
+<script src="/js/app.js"></script>
 
 </html>

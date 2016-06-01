@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-
+// Nixon Code Below
     $.ajax({
         url: '/api/users',
         success: function(data) {
