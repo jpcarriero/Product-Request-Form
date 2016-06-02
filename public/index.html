@@ -99,7 +99,7 @@
         <textarea name="comments" class="form-control" id="other" rows="3" placeholder="Anything else we should know?"></textarea>
       </fieldset>
 
-      <fieldset class="form-group">
+      <fieldset class="form-group sfdc-hide">
         <label for="company">Company:</label>
         <input name="company" class="form-control" id="company" required placeholder="Segment">
       </fieldset>
@@ -123,7 +123,7 @@
         </div>
       </fieldset>
 
-      <fieldset class="form-group sfdc-hide">
+      <fieldset class="form-group">
         <div>
           <label>Current Deal Stage</label>
         </div>
@@ -165,7 +165,9 @@ $('#seusr').val(getParameterByName('sales_engineer'))
 $('#seusremail').val(getParameterByName('sales_engineer_email'))
 $('#company').val(getParameterByName('company'));
 $('#deal-size').val(getParameterByName('deal_size'));
-
+if(getParameterByName('from_sfdc')=="true"){
+  $('.sfdc-hide').hide();
+}
 //Show appropiate request type field based on category selection
 function watchForChange(){
   if($('#sel1').val() != null){
