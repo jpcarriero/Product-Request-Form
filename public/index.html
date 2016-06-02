@@ -31,10 +31,16 @@
     <form role="form" action="javascript:write_row();">
 
       <fieldset class="form-group sfdc-hide">
-        <label for="usr">Name:</label>
+        <label for="usr">Sales Rep:</label>
         <input type="text" name="user" class="form-control typeahead" id="usr" required placeholder="First Last">
+        <input type="text" name="uemail" class="form-control typeahead" id="usremail" required placeholder="first@segment.com">
       </fieldset>
-      
+
+      <fieldset class="form-group sfdc-hide">
+        <label for="usr">Sales Engineer:</label>
+        <input type="text" name="seuser" class="form-control typeahead" id="seusr" required placeholder="First Last">
+        <input type="text" name="semail" class="form-control typeahead" id="seusremail" required placeholder="first@segment.com">
+      </fieldset>
       <fieldset class="form-group">
         <label for="sel1">Request Category:</label>
         <select class="form-control" id="sel1" name="category" required>
@@ -154,6 +160,9 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 $('#usr').val(getParameterByName('name'));
+$('#usremail').val(getParameterByName('email'));
+$('#seusr').val(getParameterByName('sales_engineer'))
+$('#seusremail').val(getParameterByName('sales_engineer_email'))
 $('#company').val(getParameterByName('company'));
 $('#deal-size').val(getParameterByName('deal_size'));
 
@@ -199,10 +208,13 @@ function write_row() {
           dlsz = $('#deal-size').val();
           stg = $("input:radio[name='stage-radio']:checked").val();
           rgnt = $("#urgent").val();
+          eml = $('#usremail').val();
+          se = $('#seusr').val();
+          seeml = $('#seusremail').val();
           row_to_write = [nm,ctgy,typ,dts,mpct,cmmts,cmpny,tm,dlsz,stg];
           console.log(url);
           console.log(row_to_write);
-          $.get( url, {Requester_Name:nm,Request_Category:ctgy,Jira_Id:jrid,Request_Type:typ,Issue_Id:jrssid,Request_Details:dts,Deal_Impact:mpct,Other_Comments:cmmts,Company:cmpny,Deal_Size:dlsz,Deal_Stage:stg,Urgent:rgnt}, function(){
+          $.get( url, {Requester_Name:nm,Requester_Email:eml,SE:se,SE_Email:seeml,Request_Category:ctgy,Jira_Id:jrid,Request_Type:typ,Issue_Id:jrssid,Request_Details:dts,Deal_Impact:mpct,Other_Comments:cmmts,Company:cmpny,Deal_Size:dlsz,Deal_Stage:stg,Urgent:rgnt}, function(){
             window.location.href = 'https://docs.google.com/spreadsheets/d/1HK1VShTuPlTeSCtlcj0vwwgbq6K49WcQBZ7kW4rKmAg/edit#gid=0';
           });
 }
