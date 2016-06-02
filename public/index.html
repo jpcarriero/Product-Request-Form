@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/typeaheadjs.css">
   <script src="/js/typeahead.bundle.min.js"></script>
-  <script src="/js/app.js"></script>
+ <!-- <script src="/js/app.js"></script> -->
 </head>
 <body>
   <div class="container">
@@ -39,10 +39,10 @@
         <label for="sel1">Request Category:</label>
         <select class="form-control" id="sel1" name="category" required>
           <option value="" disabled selected hidden>---What is your request in regards to?----</option>
-          <option value="Downstream Integration">Downstream Integration</option>
-          <option value="Source Integration">Source Integration</option>
-          <option value="Warehouse Integration">Warehouse Integration</option>
-          <option value="Product Feature">Product Feature</option>
+          <option value="Integrations">Downstream Integration</option>
+          <option value="Source Integrations">Source Integration</option>
+          <option value="Sources & Warehouses">Warehouse Integration</option>
+          <option value="App">Segment App</option>
         </select>
       </fieldset>
 
@@ -51,8 +51,17 @@
           <label>Type of Request</label>
         </div>
         <label class="radio-inline"><input type="radio" value="New Integration" name="type-radio">New Integration</label>
-        <label class="radio-inline"><input type="radio" value="Upgrade to Current Integration" name="type-radio">Upgrade to Current Integration</label>
-        <label class="radio-inline"><input type="radio" value="Bug Fix" name="type-radio">Bug Fix</label>
+        <label class="radio-inline"><input type="radio" value="Improvement" name="type-radio">Upgrade to Current Integration</label>
+        <label class="radio-inline"><input type="radio" value="Bug" name="type-radio">Bug Fix</label>
+      </fieldset>
+
+      <fieldset class="form-group show-feature" style="display:none">
+        <div>
+          <label>Type of Request</label>
+        </div>
+        <label class="radio-inline"><input type="radio" value="New Integration" name="type-radio">New Feature</label>
+        <label class="radio-inline"><input type="radio" value="Improvement" name="type-radio">Improvement to App</label>
+        <label class="radio-inline"><input type="radio" value="Bug" name="type-radio">Bug Fix</label>
       </fieldset>
 
       <fieldset class="form-group">
@@ -75,7 +84,7 @@
           <br>
           <label class="radio-inline"><input type="radio" value="5" name="impact-radio" >5 - Deal at Risk (without this request it is unlikely the deal will close)</label>
           <br>
-          <label class="radio-inline"><input type="radio" value="5" name="impact-radio" >6 - Deal Blocked (this deal is closed-lost until this request is met)</label>
+          <label class="radio-inline"><input type="radio" value="6" name="impact-radio" >6 - Deal Blocked (this deal is closed-lost until this request is met)</label>
           </div>
       </fieldset>
 
@@ -121,14 +130,20 @@
         <label class="radio-inline"><input type="radio" value="7" name="stage-radio">Renewal</label>
 
       </fieldset>
+
+      <input type="hidden" name="urgent" id="urgent" value="No">
+
       <div id="buttons">
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="submit" class="btn btn-primary btn-urgent" style="float:right">Urgent Request</button>
+        <button type="submit" id="sbmt" class="btn btn-primary">Submit</button>
+        <div class="btn btn-primary btn-urgent" style="float:right;cursor:pointer;" onclick="urgent()">Urgent Request</div>
       </div>
     </form>
   </div>
 
 <script>
+//set urgent hidden field to default value of No
+$('#urgent').val("No");
+// fill fields based on query parameters
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
@@ -138,16 +153,44 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-$('#usr').val(getParameterByName('name'))
-$('#company').val(getParameterByName('company'))
-$('#deal-size').val(getParameterByName('deal_size'))
-$('#deal-size').val(getParameterByName('deal_size'))
+$('#usr').val(getParameterByName('name'));
+$('#company').val(getParameterByName('company'));
+$('#deal-size').val(getParameterByName('deal_size'));
 
+//Show appropiate request type field based on category selection
+function watchForChange(){
+  if($('#sel1').val() != null){
+    $('.show-integration').toggle($('#sel1').val().includes("Integration")||$('#sel1').val().includes("Warehouse"))
+    $('.show-feature').toggle($('#sel1').val().includes("App"))
+  }
+}
+setInterval(watchForChange, 250)
+
+// Determine if urgent request or not
+function urgent(){
+  answer = false;
+  answer = confirm('Marking this request as urgent will create a JIRA ticket and notify Tido & Ilya, do you want to continue?');
+  if (answer) {
+    // Save it!
+    $('#urgent').val("Yes");
+    $('#sbmt').click();
+
+} else {
+    $('#urgent').val("No");
+}
+}
+
+
+//write to google spreadsheet
 function write_row() {
-          url = 'https://script.google.com/a/macros/segment.com/s/AKfycbxc9U5KMl_cZN_3YJ6W3-K7pyu0nfkt--8Kf_4_dCogicpiDJA/exec'
+          jira_id_dict = {"Integrations":"10300","Source Integrations":"10701","App":"10900","Sources & Warehouses":"10100","Improvement":"10203"};
+          jira_issue_id_dict = {"Improvement":"10002","New Feature":"10002","Bug":"10004","New Integration":"10002"}
+          url = 'https://script.google.com/a/macros/segment.com/s/AKfycbxc9U5KMl_cZN_3YJ6W3-K7pyu0nfkt--8Kf_4_dCogicpiDJA/exec';
           nm = $('#usr').val();
           ctgy = $('#sel1').val();
+          jrid = jira_id_dict[ctgy];
           typ = $("input:radio[name='type-radio']:checked").val();
+          jrssid = jira_issue_id_dict[typ];
           dts = $('#request-details').val();
           mpct = $("input:radio[name='impact-radio']:checked").val();
           cmmts = $('#other').val();
@@ -155,20 +198,16 @@ function write_row() {
           tm = $("input:radio[name='team-radio']:checked").val();
           dlsz = $('#deal-size').val();
           stg = $("input:radio[name='stage-radio']:checked").val();
+          rgnt = $("#urgent").val();
           row_to_write = [nm,ctgy,typ,dts,mpct,cmmts,cmpny,tm,dlsz,stg];
           console.log(url);
           console.log(row_to_write);
-          $.get( url, {Requester_Name:nm,Request_Category:ctgy,Request_Type:typ,Request_Details:dts,Impact_on_Deal:mpct,Other_Comments:cmmts,Company:cmpny,Deal_Size:dlsz,Deal_Stage:stg}, function(){
+          $.get( url, {Requester_Name:nm,Request_Category:ctgy,Jira_Id:jrid,Request_Type:typ,Issue_Id:jrssid,Request_Details:dts,Deal_Impact:mpct,Other_Comments:cmmts,Company:cmpny,Deal_Size:dlsz,Deal_Stage:stg,Urgent:rgnt}, function(){
             window.location.href = 'https://docs.google.com/spreadsheets/d/1HK1VShTuPlTeSCtlcj0vwwgbq6K49WcQBZ7kW4rKmAg/edit#gid=0';
           });
 }
 
-function watchForChange(){
-  if($('#sel1').val() != null){
-    $('.show-integration').toggle($('#sel1').val().includes("Integration"))
-  }
-}
-setInterval(watchForChange, 250)
+
 </script>
 </body>
 
